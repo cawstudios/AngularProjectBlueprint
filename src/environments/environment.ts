@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   apiBaseUrl: '/api',
   envName: 'local',
+  cookieDomain: '',
   sentryIOUrl: ''
 };
 
