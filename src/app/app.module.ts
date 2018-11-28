@@ -11,15 +11,19 @@ import { LoggerService } from './services/logger.service';
 import { SecuredStorageProviderService } from './services/secured-storage-provider.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpInterceptors } from './services/http-interceptors';
+import { AlertComponent } from './components/alert/alert.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatSnackBarModule
   ],
   providers: [
     AlertService,
@@ -32,4 +36,5 @@ import { HttpInterceptors } from './services/http-interceptors';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
