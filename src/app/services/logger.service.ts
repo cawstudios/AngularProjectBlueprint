@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BrowserClient, Hub } from '@sentry/browser';
 import * as _ from 'lodash';
+import * as mixpanel from 'mixpanel-browser';
 import { environment } from '../../environments/environment';
+import * as moment from 'moment';
 import { LoggerLevel } from '../enums/logger-level.enum';
 
 @Injectable()
@@ -35,6 +37,49 @@ export class LoggerService {
         this.log(null, logData.logMsg, logData.logLevel, logData.logData, logData.logCallerTypeName, logData.logCallerMethodName);
         this._logsBeforeInitialization.pop();
       }
+    }
+  }
+
+  public setUser(emailId: string): void {
+    if (this.isRemoteLoggingEnabled) {
+      mixpanel.identify(emailId);
+      mixpanel.register({
+        '$distinct_id': emailId
+      });
+    } else {
+      return;
+    }
+  }
+
+  public setUserAlias(newId: string): void {
+    if (this.isRemoteLoggingEnabled) {
+      mixpanel.alias(newId);
+    } else {
+      return;
+    }
+  }
+
+  public setUserProperties(firstName: string, lastName: string, email: string, phone: string): void {
+    if (this.isRemoteLoggingEnabled) {
+      mixpanel.people.set({
+        '$first_name': firstName,
+        '$last_name': lastName,
+        '$phone': phone,
+        '$email': email,
+        '$created': moment(new Date()).format()
+      });
+    } else {
+      return;
+    }
+  }
+
+  public setUserProperty(propertyName: string, propertyValue: string): void {
+    if (this.isRemoteLoggingEnabled) {
+      const propertyObject = {};
+      propertyObject[propertyName] = propertyValue;
+      mixpanel.people.set(propertyObject);
+    } else {
+      return;
     }
   }
 
@@ -91,6 +136,18 @@ export class LoggerService {
       data: logEntry.data
     });
 
+    if (level === 'Event') {
+      mixpanel.track(
+        logEntry.message,
+        logEntry.data
+      );
+    }
+
+    this.hub.addBreadcrumb({
+      message: logEntry.message,
+      data: logEntry.data
+    });
+
     if (level === 'Error') {
       this.hub.captureException(error);
     }
@@ -105,5 +162,8 @@ export class LoggerService {
     this.hub.configureScope(scope => {
       scope.setTag('environment', environment.envName);
     });
+
+    mixpanel.init(environment.mixpanelToken);
+    mixpanel.register({environment: environment.envName});
   }
 }

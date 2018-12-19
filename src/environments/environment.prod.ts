@@ -1,3 +1,8 @@
 export const environment = {
-  production: true
+  production: true,
+  apiBaseUrl: '/api',
+  envName: 'production',
+  cookieDomain: '',
+  sentryIOUrl: '',
+  mixpanelToken: ''
 };
