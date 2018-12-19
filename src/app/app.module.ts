@@ -1,20 +1,40 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppComponent } from './components/app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AlertService } from './services/alert.service';
+import { BackendService } from './services/backend.service';
+import { ErrorsHandler } from './services/error-handler.service';
+import { LoggerService } from './services/logger.service';
+import { SecuredStorageProviderService } from './services/secured-storage-provider.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpInterceptors } from './services/http-interceptors';
+import { AlertComponent } from './components/alert/alert.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    AlertService,
+    BackendService,
+    ErrorsHandler,
+    LoggerService,
+    SecuredStorageProviderService,
+    {provide: ErrorHandler, useClass: ErrorsHandler},
+    {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptors, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
