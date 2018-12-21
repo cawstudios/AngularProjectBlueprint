@@ -27,7 +27,8 @@ export class LoggerService {
 
     if (environment.envName !== 'local') {
       this.configure();
-      this.isRemoteLoggingEnabled = true;
+      // Disable remote logging as this is the blueprint project.
+      this.isRemoteLoggingEnabled = false;
     }
 
     this._isInitialized = true;
