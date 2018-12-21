@@ -7,7 +7,8 @@ export const environment = {
   apiBaseUrl: '/api',
   envName: 'local',
   cookieDomain: '',
-  sentryIOUrl: ''
+  sentryIOUrl: '',
+  mixpanelToken: ''
 };
 
 /*
