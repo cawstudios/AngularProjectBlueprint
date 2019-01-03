@@ -2,9 +2,9 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } fr
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
-import { ErrorsHandler } from './error-handler.service';
-import { LoggerService } from './logger.service';
-import { SecuredStorageProviderService } from './secured-storage-provider.service';
+import { ErrorsHandler } from '../services/error-handler.service';
+import { LoggerService } from '../services/logger.service';
+import { SecuredStorageProviderService } from '../services/secured-storage-provider.service';
 
 @Injectable()
 export class HttpInterceptors implements HttpInterceptor {
