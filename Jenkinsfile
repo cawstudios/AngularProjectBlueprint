@@ -14,8 +14,8 @@ pipeline {
         stage('Git Tag for Release') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'AravindGitCredentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                    sh("git tag -a some_tag -m 'Jenkins'")
-                    sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/cawstudios/AngularProjectBlueprint --tags")
+                    sh("git tag -a $RELEASE_TAG -m 'Version - $RELEASE_TAG'")
+                    sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/cawstudios/AngularProjectBlueprint.git --tags")
                 }
             }
         }
