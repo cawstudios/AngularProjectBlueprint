@@ -8,7 +8,7 @@ pipeline {
             steps {
                 nodejs('Node LTS') {
                     sh 'bash -ex build.sh develop'
-                    sh 'echo $RELEASE_TAG'
+                    sh 'echo "$RELEASE_TAG"'
                 }
             }
         }
