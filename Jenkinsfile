@@ -8,15 +8,18 @@ pipeline {
         RELEASE_TAG = ''
     }
     stages {
-        when {
-            branch 'develop'
-        }
         stage('Build') {
+            when {
+                branch 'develop'
+            }
             steps {
                 sh ' bash -ex build.sh develop'
             }
         }
         stage('Git Tag for Release') {
+            when {
+                branch 'develop'
+            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'AravindGitCredentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                     sh("git tag -a some_tag -m 'Jenkins'")
