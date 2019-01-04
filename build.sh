@@ -1,5 +1,8 @@
 ENVIRONMENT=$1
+VERSION="$(node -p -e "require('./package.json').version").$BUILD_NUMBER"
+sed -i "s/%VERSION%/$VERSION/g" ./src/environments/environment.$ENVIRONMENT.ts
 npm install
 npm run build:$ENVIRONMENT
-mkdir -p dist/source-map-files
-mv dist/RGIHomeInsurance/**.map dist/source-map-files
+RELEASE_TAG="$VERSION"
+echo $VERSION
+echo $RELEASE_TAG
