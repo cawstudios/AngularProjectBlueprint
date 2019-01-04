@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine'
-        }
-    }
+    agent any
     environment {
         RELEASE_TAG = ''
     }
@@ -13,7 +9,9 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                sh ' bash -ex build.sh develop'
+                nodejs('Node LTS') {
+                    sh ' bash -ex build.sh develop'
+                }
             }
         }
         stage('Git Tag for Release') {
