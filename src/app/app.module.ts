@@ -9,16 +9,10 @@ import { BackendService } from './services/backend.service';
 import { ErrorsHandler } from './services/error-handler.service';
 import { LoggerService } from './services/logger.service';
 import { SecuredStorageProviderService } from './services/secured-storage-provider.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpInterceptors } from './http-interceptors/http-interceptors';
 import { AlertComponent } from './components/alert/alert.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { OfflineInterceptor } from './http-interceptors/offline-interceptor';
-
-const httpInterceptors = [
-  {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptors, multi: true},
-  {provide: HTTP_INTERCEPTORS, useClass: OfflineInterceptor, multi: true}
-];
 
 @NgModule({
   declarations: [
@@ -28,6 +22,7 @@ const httpInterceptors = [
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MatSnackBarModule
   ],
@@ -38,7 +33,7 @@ const httpInterceptors = [
     LoggerService,
     SecuredStorageProviderService,
     {provide: ErrorHandler, useClass: ErrorsHandler},
-    httpInterceptors
+    {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptors, multi: true}
   ],
   bootstrap: [AppComponent]
 })
