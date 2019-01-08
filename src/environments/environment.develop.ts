@@ -4,5 +4,6 @@ export const environment = {
   envName: 'production',
   cookieDomain: '',
   sentryIOUrl: '',
-  mixpanelToken: ''
+  mixpanelToken: '',
+  siteVersion: '%VERSION%'
 };

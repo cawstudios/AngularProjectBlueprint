@@ -8,7 +8,8 @@ export const environment = {
   envName: 'local',
   cookieDomain: '',
   sentryIOUrl: '',
-  mixpanelToken: ''
+  mixpanelToken: '',
+  siteVersion: '%VERSION%'
 };
 
 /*
