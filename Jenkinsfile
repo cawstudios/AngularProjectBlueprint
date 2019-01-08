@@ -8,14 +8,12 @@ pipeline {
             steps {
                 nodejs('Node LTS') {
                     sh 'bash -ex build.sh develop'
-                    sh 'echo "$RELEASE_TAG"'
                 }
             }
         }
         stage('Git Tag for Release') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'AravindGitCredentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                    sh("git tag -a $RELEASE_TAG -m 'Version - $RELEASE_TAG'")
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'AravindGitCredentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]]) {
                     sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/cawstudios/AngularProjectBlueprint.git --tags")
                 }
             }
