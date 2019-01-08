@@ -157,7 +157,8 @@ export class LoggerService {
 
   private configure(): void {
     const client = new BrowserClient({
-      dsn: environment.sentryIOUrl
+      dsn: environment.sentryIOUrl,
+      release: environment.siteVersion
     });
     this.hub = new Hub(client);
     this.hub.configureScope(scope => {
