@@ -12,3 +12,4 @@ Angular Blueprint Features
 8. Ability to add meta tags using a Base Component
 9. Ability to destroy subscriptions of components from a single Base component
 10. Configurable build script for CI/CD
+11. Built in support for multiple languages
