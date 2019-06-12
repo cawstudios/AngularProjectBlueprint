@@ -1,7 +1,7 @@
 import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { AlertService } from '../../services/alert.service';
 import { AlertModel } from '../../models/alert-model';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from '../../base.component';
 
 @Component({
