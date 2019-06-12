@@ -1,5 +1,5 @@
-import { Injector } from '@angular/core';
-import { OnDestroy, OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Injector, OnDestroy, OnInit } from '@angular/core';
+// import { OnDestroy, OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Meta, Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 
