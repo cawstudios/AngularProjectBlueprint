@@ -9,6 +9,7 @@ pipeline {
                 nodejs('Node LTS') {
                     sh 'bash -ex build.sh develop'
                 }
+                azureUpload blobProperties: [cacheControl: '', contentEncoding: '', contentLanguage: '', contentType: '', detectContentType: true], cleanUpContainerOrShare: true, containerName: '$web', fileShareName: '', filesPath: '**', storageCredentialId: 'angseed-storage-account', storageType: 'blobstorage', uploadArtifactsOnlyIfSuccessful: true
             }
         }
         // stage('Git Tag for Release') {
