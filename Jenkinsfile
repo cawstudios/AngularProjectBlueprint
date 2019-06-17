@@ -11,12 +11,12 @@ pipeline {
                 }
             }
         }
-        stage('Git Tag for Release') {
-            steps {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'AravindGitCredentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]]) {
-                    sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/cawstudios/AngularProjectBlueprint.git --tags")
-                }
-            }
-        }
+        // stage('Git Tag for Release') {
+        //     steps {
+        //         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'AravindGitCredentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]]) {
+        //             sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/cawstudios/AngularProjectBlueprint.git --tags")
+        //         }
+        //     }
+        // }
     }
 }
