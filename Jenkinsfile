@@ -7,17 +7,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                nodejs('Node LTS') {
-                    sh 'bash -ex build.sh develop'
-                    sh label: '', script: '''rm -rf "node_modules"'''
-                    sh label: '', script: '''find ./ -mindepth 1 -name dist -prune -o -exec rm -rf {} +'''
-                    sh label: '', script: '''cp -R dist/AngularProjectBlueprint/** .'''
-                    sh label: '', script: '''rm -rf "dist"'''
-                    azureUpload blobProperties: [cacheControl: '', contentEncoding: '', contentLanguage: '', contentType: '', detectContentType: true], cleanUpContainerOrShare: true, containerName: '$web', fileShareName: '', filesPath: '**', storageCredentialId: 'angseed-storage-account', storageType: 'blobstorage', uploadArtifactsOnlyIfSuccessful: true
-                    // def response = httpRequest "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net"
-                    // println('Status: '+response.status)
-                    // println('Response: '+response.content)
-                }
+                // nodejs('Node LTS') {
+                //     sh 'bash -ex build.sh develop'
+                //     sh label: '', script: '''rm -rf "node_modules"'''
+                //     sh label: '', script: '''find ./ -mindepth 1 -name dist -prune -o -exec rm -rf {} +'''
+                //     sh label: '', script: '''cp -R dist/AngularProjectBlueprint/** .'''
+                //     sh label: '', script: '''rm -rf "dist"'''
+                //     azureUpload blobProperties: [cacheControl: '', contentEncoding: '', contentLanguage: '', contentType: '', detectContentType: true], cleanUpContainerOrShare: true, containerName: '$web', fileShareName: '', filesPath: '**', storageCredentialId: 'angseed-storage-account', storageType: 'blobstorage', uploadArtifactsOnlyIfSuccessful: true
+                //     // def response = httpRequest "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net"
+                //     // println('Status: '+response.status)
+                //     // println('Response: '+response.content)
+                // }
                 script {
                     def response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
                     echo response["lighthouseResult"]
