@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    def response
     environment {
         RELEASE_TAG = ''
         PAGESPEED_CONTENT = ''
@@ -19,16 +18,16 @@ pipeline {
                     // println('Status: '+response.status)
                     // println('Response: '+response.content)
                 }
-                script {
-                    response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
-                    echo response.lighthouseResult.categories.performance.score
-                }
+                // script {
+                //     response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
+                //     echo response.lighthouseResult.categories.performance.score
+                // }
             }
         }
     }
     post {
         script {
-            response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
+            def response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
             echo response.lighthouseResult.categories.performance.score
         }
         success {
