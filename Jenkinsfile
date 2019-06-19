@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         RELEASE_TAG = ''
+        PAGESPEED_CONTENT any
     }
     stages {
         stage('Build') {
@@ -18,8 +19,8 @@ pipeline {
                     // println('Response: '+response.content)
                 }
                 script {
-                    def response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
-                    echo response
+                    PAGESPEED_CONTENT = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
+                    echo PAGESPEED_CONTENT.lighthouseResult.categories.performance.score
                 }
             }
         }
