@@ -19,7 +19,8 @@ pipeline {
                 //     // println('Response: '+response.content)
                 // }
                 script {
-                    def response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
+                    def response = []
+                     response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
                     echo response["lighthouseResult"]
                 }
             }
