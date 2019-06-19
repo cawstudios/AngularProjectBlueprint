@@ -20,7 +20,7 @@ pipeline {
                 }
                 script {
                     def response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
-                    echo response.lighthouseResult.categories.performance.score
+                    echo response["lighthouseResult"]
                 }
             }
         }
