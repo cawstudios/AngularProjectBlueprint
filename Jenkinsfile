@@ -18,18 +18,14 @@ pipeline {
                     // println('Status: '+response.status)
                     // println('Response: '+response.content)
                 }
-                // script {
-                //     response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
-                //     echo response.lighthouseResult.categories.performance.score
-                // }
+                script {
+                    def response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
+                    echo response.lighthouseResult.categories.performance.score
+                }
             }
         }
     }
     post {
-        script {
-            def response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
-            echo response.lighthouseResult.categories.performance.score
-        }
         success {
             slackSend channel: 'cashflo-builds', message: "Success Job Name:${env.JOB_NAME}, Build Number:${env.BUILD_NUMBER}", tokenCredentialId: 'Slack Token'
         }
