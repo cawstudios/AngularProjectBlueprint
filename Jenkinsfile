@@ -13,6 +13,7 @@ pipeline {
                     sh label: '', script: '''cp -R dist/AngularProjectBlueprint/** .'''
                     sh label: '', script: '''rm -rf "dist"'''
                     azureUpload blobProperties: [cacheControl: '', contentEncoding: '', contentLanguage: '', contentType: '', detectContentType: true], cleanUpContainerOrShare: true, containerName: '$web', fileShareName: '', filesPath: '**', storageCredentialId: 'angseed-storage-account', storageType: 'blobstorage', uploadArtifactsOnlyIfSuccessful: true
+                    sh label: '', script: 'curl -s -o /dev/null -w "%{http_code}" https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net'
                 }
             }
         }
