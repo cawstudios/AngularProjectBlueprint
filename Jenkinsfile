@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         RELEASE_TAG = ''
-        PAGESPEED_CONTENT any
+        PAGESPEED_CONTENT = []
     }
     stages {
         stage('Build') {
