@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    def response
     environment {
         RELEASE_TAG = ''
         PAGESPEED_CONTENT = ''
@@ -19,18 +20,22 @@ pipeline {
                     // println('Response: '+response.content)
                 }
                 script {
-                    PAGESPEED_CONTENT = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
-                    echo PAGESPEED_CONTENT.lighthouseResult.categories.performance.score
+                    response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
+                    echo response.lighthouseResult.categories.performance.score
                 }
             }
         }
     }
     post {
-      success {
-           slackSend channel: 'cashflo-builds', message: "Success Job Name:${env.JOB_NAME}, Build Number:${env.BUILD_NUMBER}", tokenCredentialId: 'Slack Token'
-       }
-       failure {
-            slackSend channel: 'cashflo-builds', message: "Failed Job Name:${env.JOB_NAME}, Build Number:${env.BUILD_NUMBER}", tokenCredentialId: 'Slack Token'
-       }
+        script {
+            response = sh(script: 'curl https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://angseedstorage.z29.web.core.windows.net', returnStdout: true)
+            echo response.lighthouseResult.categories.performance.score
+        }
+        success {
+            slackSend channel: 'cashflo-builds', message: "Success Job Name:${env.JOB_NAME}, Build Number:${env.BUILD_NUMBER}", tokenCredentialId: 'Slack Token'
+        }
+        failure {
+                slackSend channel: 'cashflo-builds', message: "Failed Job Name:${env.JOB_NAME}, Build Number:${env.BUILD_NUMBER}", tokenCredentialId: 'Slack Token'
+        }
  }
 }
