@@ -23,3 +23,9 @@ resource "azurerm_storage_container" "resource_gp" {
 output "storage_account_access_key" {
   value = "${azurerm_storage_account.resource_gp.primary_access_key}"
 }
+
+resource "local_file" "access_key"{
+	content = "${azurerm_storage_account.resource_gp.primary_access_key}"
+	filename = "output.txt"
+
+}
