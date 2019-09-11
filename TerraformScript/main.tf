@@ -17,7 +17,7 @@ resource "azurerm_storage_container" "resource_gp" {
   name                  = "$web"
   resource_group_name   = "${azurerm_resource_group.resource_gp.name}"
   storage_account_name  = "${azurerm_storage_account.resource_gp.name}"
-  container_access_type = "private"
+  container_access_type = "container"
 }
 
 output "storage_account_access_key" {
