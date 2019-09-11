@@ -7,46 +7,25 @@ resource "azurerm_storage_account" "resource_gp" {
   name                     = "st<project_name><env_name><app_name>"
   resource_group_name      = "${azurerm_resource_group.resource_gp.name}"
   location                 = "${azurerm_resource_group.resource_gp.location}"
+  account_kind             = "StorageV2"
   account_tier             = "Standard"
   account_replication_type = "LRS"
+  enable_https_traffic_only = true
 }
-
-resource "azurerm_app_service_plan" "resource_gp" {
-  name                = "sp<project_name><env_name><app_name>"
-  location            = "${azurerm_resource_group.resource_gp.location}"
-  resource_group_name = "${azurerm_resource_group.resource_gp.name}"
-  kind                = "FunctionApp"
   
-    sku {
-    tier = "Dynamic"
-    size = "Y1"
-  }
+resource "azurerm_storage_container" "resource_gp" {
+  name                  = "$web"
+  resource_group_name   = "${azurerm_resource_group.resource_gp.name}"
+  storage_account_name  = "${azurerm_storage_account.resource_gp.name}"
+  container_access_type = "private"
 }
 
-resource "azurerm_application_insights" "resource_gp" {
-  name                = "ai<project_name><env_name><app_name>"
-  location            = "${azurerm_resource_group.resource_gp.location}"
-  resource_group_name = "${azurerm_resource_group.resource_gp.name}"
-  application_type    = "Web"
+output "storage_account_access_key" {
+  value = "${azurerm_storage_account.resource_gp.primary_access_key}"
 }
 
-resource "azurerm_function_app" "resource_gp" {
-  name                      = "<project_name><env_name><app_name>"
-  location                  = "${azurerm_resource_group.resource_gp.location}"
-  resource_group_name       = "${azurerm_resource_group.resource_gp.name}"
-  app_service_plan_id       = "${azurerm_app_service_plan.resource_gp.id}"
-  storage_connection_string = "${azurerm_storage_account.resource_gp.primary_connection_string}"
-  version                   = "~2"
+resource "local_file" "access_key"{
+	content = "${azurerm_storage_account.resource_gp.primary_access_key}"
+	filename = "output.txt"
 
-  app_settings = {
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = "${azurerm_application_insights.resource_gp.instrumentation_key}"
-  }
-} 
-
-resource "azurerm_log_analytics_workspace" "resource_gp" {
-  name                = "la<project_name><env_name><app_name>"
-  location            = "${azurerm_resource_group.resource_gp.location}"
-  resource_group_name = "${azurerm_resource_group.resource_gp.name}"
-  sku                 = "PerGB2018"
-  retention_in_days   = 30
 }
